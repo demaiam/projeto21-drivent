@@ -129,8 +129,8 @@ describe('GET /hotels', () => {
           id: expect.any(Number),
           name: expect.any(String),
           image: expect.any(String),
-          createdAt: expect.any(Date),
-          updatedAt: expect.any(Date),
+          createdAt: expect.any(String),
+          updatedAt: expect.any(String),
         })
       ]));
     });
@@ -239,9 +239,9 @@ describe('GET /hotels/:id', () => {
 
       await createTicket(enrollment.id, ticketType.id, TicketStatus.PAID);
 
-      await createHotel()
+      const hotel = await createHotel();
 
-      const response = await server.get('/hotels/1').set('Authorization', `Bearer ${token}`);
+      const response = await server.get(`/hotels/${hotel.id}`).set('Authorization', `Bearer ${token}`);
 
       expect(response.status).toBe(httpStatus.OK);
       expect(response.body).toEqual(expect.objectContaining({
