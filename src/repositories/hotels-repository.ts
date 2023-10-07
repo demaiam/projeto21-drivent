@@ -17,7 +17,20 @@ async function getHotelById(hotelId: number) {
   return result;
 }
 
+async function checkRoomCapacity(roomId: number) {
+  const result = await prisma.room.findFirst({
+    where: {
+      id: roomId
+    },
+    include: {
+      Booking: true
+    }
+  });
+  return result;
+}
+
 export const hotelsRepository = {
   getHotels,
-  getHotelById
+  getHotelById,
+  checkRoomCapacity
 }
