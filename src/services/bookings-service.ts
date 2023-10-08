@@ -3,7 +3,13 @@ import { notFoundError } from "@/errors";
 import { TicketStatus } from "@prisma/client";
 import { forbiddenError } from "@/errors/forbidden-error";
 
-async function validateBooking(userId: number) {
+async function checkRoomCapacity(roomId: number) {
+  const room = await hotelsRepository.checkRoomCapacity(roomId);
+  if (!room) throw notFoundError();
+  if (room.capacity <= room.Booking.length) throw forbiddenError();
+}
+
+async function createBooking(userId: number, roomId: number) {
   const enrollment = await enrollmentRepository.findWithAddressByUserId(userId);
   if (!enrollment) throw notFoundError();
 
@@ -15,17 +21,7 @@ async function validateBooking(userId: number) {
   if (ticket.status === TicketStatus.RESERVED || type.isRemote || !type.includesHotel) {
     throw forbiddenError();
   }
-}
 
-async function checkRoomCapacity(roomId: number) {
-  const room = await hotelsRepository.checkRoomCapacity(roomId);
-  if (!room) throw notFoundError();
-
-  if (room.capacity <= room.Booking.length) throw forbiddenError();
-}
-
-async function createBooking(userId: number, roomId: number) {
-  await validateBooking(userId);
   await checkRoomCapacity(roomId);
   
   const booking = await bookingRepository.createBooking(userId, roomId);

@@ -10,10 +10,11 @@ async function createBooking(userId: number, roomId: number) {
       Room: true
     }
   });
-  return {
+  const booking = {
     bookingId: result.id,
     Room: result.Room
-  };
+  }
+  return booking;
 }
 
 async function getBooking(userId: number) {
@@ -27,7 +28,11 @@ async function getBooking(userId: number) {
       Room: true
     }
   });
-  return result;
+  const booking = {
+    bookingId: result.id,
+    Room: result.Room
+  }
+  return booking;
 }
 
 async function updateBooking(bookingId: number, roomId: number) {
@@ -42,10 +47,11 @@ async function updateBooking(bookingId: number, roomId: number) {
       Room: true
     }
   });
-  return { 
+  const booking = { 
     bookingId: result.roomId,
     Room: result.Room
   };
+  return booking;
 }
 
 export const bookingRepository = {

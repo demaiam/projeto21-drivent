@@ -18,7 +18,7 @@ async function getHotelById(hotelId: number) {
 }
 
 async function checkRoomCapacity(roomId: number) {
-  const result = await prisma.room.findFirst({
+  const result = await prisma.room.findUnique({
     where: {
       id: roomId
     },
