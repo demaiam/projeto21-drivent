@@ -5,7 +5,7 @@ import { bookingService } from '@/services';
 
 export async function createBooking(req: AuthenticatedRequest, res: Response) {
   const { userId } = req;
-  const { roomId } = req.body;
+  const roomId = req.body.roomId;
 
   const booking = await bookingService.createBooking(userId, roomId);
 
@@ -22,7 +22,7 @@ export async function getBooking(req: AuthenticatedRequest, res: Response) {
 
 export async function updateBooking(req: AuthenticatedRequest, res: Response) {
   const { userId } = req;
-  const { roomId } = req.body;
+  const roomId = req.body.roomId;
   const bookingId = Number(req.params.bookingId);
 
   const booking = await bookingService.updateBooking(userId, roomId, bookingId);

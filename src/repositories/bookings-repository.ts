@@ -1,7 +1,7 @@
 import { prisma } from "@/config";
 
 async function createBooking(userId: number, roomId: number) {
-  const result = await prisma.booking.create({
+  return prisma.booking.create({
     data: {
       userId,
       roomId
@@ -10,15 +10,10 @@ async function createBooking(userId: number, roomId: number) {
       Room: true
     }
   });
-  const booking = {
-    bookingId: result.id,
-    Room: result.Room
-  }
-  return booking;
 }
 
 async function getBooking(userId: number) {
-  const result = await prisma.booking.findFirst({
+  return prisma.booking.findFirst({
     where: {
       User: {
         id: userId
@@ -28,15 +23,10 @@ async function getBooking(userId: number) {
       Room: true
     }
   });
-  const booking = {
-    bookingId: result.id,
-    Room: result.Room
-  }
-  return booking;
 }
 
 async function updateBooking(bookingId: number, roomId: number) {
-  const result = await prisma.booking.update({
+  return prisma.booking.update({
     where: {
       id: bookingId
     },
@@ -47,11 +37,6 @@ async function updateBooking(bookingId: number, roomId: number) {
       Room: true
     }
   });
-  const booking = { 
-    bookingId: result.roomId,
-    Room: result.Room
-  };
-  return booking;
 }
 
 export const bookingRepository = {
